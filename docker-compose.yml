@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  front_end:
+    build: ./front_end
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./front_end:/app
+    depends_on:
+      - vaccination_database
+
+  vaccination_database:
+    build: ./vaccination_database
+    ports:
+      - "5001:3306"
+    environment:
+      MYSQL_DATABASE: vaccination_db
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - vaccination_database-data:/var/lib/mysql
+
+volumes:
+  vaccination_database-data:
